@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itop_design version="1.6">
+    <classes>
+        <class id="Person" _delta="must_exist">
+            <methods>
+                <method id="GetAsHTML" _delta="define">
+                    <comment>/**
+                        * Override default implementation to use the new AttributeGravatarImage if needed
+                        */
+                    </comment>
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-DBObject</type>
+                    <code><![CDATA[public function GetAsHTML($sAttCode, $bLocalize = true)
+{
+    $bIsPictureAtt = ($sAttCode === 'picture'); //FIXME both class and attcode should be customizable
+    if (!$bIsPictureAtt)
+    {
+        return parent::GetAsHTML($sAttCode);
+    }
+
+    $oImageAtt = MetaModel::GetAttributeDef(get_class($this), $sAttCode);
+    $oGravatarAttDef = AttributeGravatarImage::FromAttrImage($oImageAtt, 'email');
+
+    return $oGravatarAttDef->GetAsHTML($this->Get($sAttCode), $this, $bLocalize);
+}
+]]></code>
+                </method>
+            </methods>
+        </class>
+    </classes>
+</itop_design>
