@@ -2,9 +2,10 @@
 
 ## Description
 This extension adds [Gravatar](http://www.gravatar.com/) support for [iTop](https://www.combodo.com/itop) : when installed, it changes the
-Person.picture attribute HTML rendering to use a Gravatar call using the Person.email value as email.
+Person.picture attribute HTML rendering. If no picture are already loaded, then a Gravatar call using the Person.email value as 
+email is done.
 
-This means that for every Person object with no picture defined, the image will be get from Gravatar service. This will change rendering 
+This means that for every Person object with no picture defined, the image will be loaded from Gravatar service. This will change rendering 
 in both lists and form details.
 
 
