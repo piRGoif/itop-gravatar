@@ -1,6 +1,6 @@
 # Gravatar support for iTop
 
-## Description
+## 👤 Description
 This extension adds [Gravatar](http://www.gravatar.com/) support for [iTop](https://www.combodo.com/itop) : when installed, it changes the
 Person.picture attribute HTML rendering. If no picture are already loaded, then a Gravatar call using the Person.email value as 
 email is done.
@@ -9,17 +9,17 @@ This means that for every Person object with no picture defined, the image will 
 in both lists and form details.
 
 
-## Requirements
+## ✔️ Requirements
 
 iTop v2.7.0 at least : the code needs the new \AttributeImage::GetAttributeImageFileUrl protected method. This method was [added in 2.6.0]() 
 as private, but its visibility was changed to protected [in 2.7.0](https://github.com/combodo/itop/commit/6bbc543ac14e1884fe009b3fd313d4f7ab326fde).
 
 
-## Known problems
+## 💣 Known problems
 The default image won't be displayed if used from a private server.
 
 
-## How it works
+## 🔧 How it works
 The extensions adds a new AttributeGravatarImage object, and overrides the Person::GetAsHTML method to use the new attribute def implementation.
 
 The Gravatar URL generation is done using [Ember Labs GravatarLib](https://github.com/emberlabs/gravatarlib/), thanks to them for this 
