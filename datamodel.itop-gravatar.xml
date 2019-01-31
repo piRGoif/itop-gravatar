@@ -20,7 +20,7 @@
     }
 
     $oImageAtt = MetaModel::GetAttributeDef(get_class($this), $sAttCode);
-    $oGravatarAttDef = AttributeGravatarImage::FromAttrImage($oImageAtt, 'email');
+    $oGravatarAttDef = new AttributeGravatarImage($oImageAtt, 'email');
 
     return $oGravatarAttDef->GetAsHTML($this->Get($sAttCode), $this, $bLocalize);
 }

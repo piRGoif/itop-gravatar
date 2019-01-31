@@ -12,15 +12,26 @@ class AttributeGravatarImage extends AttributeImage
 {
 	const EMAIL_ATTCODE_PARAM_KEY = 'gravatar_attcode';
 
-	public static function FromAttrImage(AttributeImage $oImageAttDef, $sEmailAttCode)
+	/**
+	 * We can have different parameters than in parent class... but this breaks substitution principle.
+	 * Ok within our use case, but kids, do not do this at home !
+	 *
+	 * @see http://www.php.net/oop5.decon
+	 *
+	 * @param \AttributeImage $oImageAttDef
+	 * @param string $sEmailAttCode
+	 *
+	 * @throws \Exception
+	 */
+	public function __construct(AttributeImage $oImageAttDef, $sEmailAttCode)
 	{
 		$sCode = $oImageAttDef->GetCode();
 		$aParams = $oImageAttDef->GetParams();
 		$aParams[self::EMAIL_ATTCODE_PARAM_KEY] = $sEmailAttCode;
-		$oGravatarAttDef = new self($sCode, $aParams);
-		$oGravatarAttDef->aCSSClasses = array('attribute');
 
-		return $oGravatarAttDef;
+		parent::__construct($sCode, $aParams);
+
+		$this->aCSSClasses = array('attribute');
 	}
 
 	protected function GetAttributeImageFileUrl($value, $oHostObject)
