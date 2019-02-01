@@ -15,6 +15,8 @@ Should work in all iTop, but dependency was set to iTop 2.3.4.
 
 
 ## 💣 Known problems
+There should not be any other overrides of the \Person::Get method !
+
 The default image won't be displayed if used from a private server (not visible from the Gravatar service).
 
 
