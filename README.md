@@ -6,13 +6,12 @@ Person.picture attribute HTML rendering. If no picture are already loaded, then 
 email is done.
 
 This means that for every Person object with no picture defined, the image will be loaded from Gravatar service. This will change rendering 
-in all iTop screens like objects lists, object details, extended portal.
+in all iTop screens like lists, form details, extended portal.
 
 
 ## ✔️ Requirements
 
-iTop v2.7.0 at least : the code needs the new \AttributeImage::GetAttributeImageFileUrl protected method. This method was [added in 2.6.0]() 
-as private, but its visibility was changed to protected [in 2.7.0](https://github.com/combodo/itop/commit/6bbc543ac14e1884fe009b3fd313d4f7ab326fde).
+Should work in all iTop, but dependency was set to iTop 2.3.4.
 
 
 ## 💣 Known problems
