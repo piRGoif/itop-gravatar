@@ -53,9 +53,18 @@ class ormGravatarImage extends ormDocument
 
 	public function GetDownloadURL($sClass, $Id, $sAttCode)
 	{
+		return $this->GetImageURL($sClass, $Id, $sAttCode);
+	}
+
+	public function GetDisplayURL($sClass, $Id, $sAttCode)
+	{
+		return $this->GetImageURL($sClass, $Id, $sAttCode);
+	}
+
+	protected function GetImageURL($sClass, $Id, $sAttCode)
+	{
 		$bIsEmptyValue = $this->IsEmptyValue();
 		$bEmptyEmail = empty($this->sEmailValue);
-		IssueLog::Info('ormGravatar: email='.$this->sEmailValue);
 		if (!$bIsEmptyValue || $bEmptyEmail)
 		{
 			return parent::GetDownloadURL($sClass, $Id, $sAttCode);
