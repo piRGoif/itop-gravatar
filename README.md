@@ -16,16 +16,20 @@ as private, but its visibility was changed to protected [in 2.7.0](https://githu
 
 
 ## 💣 Known problems
-The default image won't be displayed if used from a private server.
+The default image won't be displayed if used from a private server (not visible from the Gravatar service).
 
 
 ## 🔧 How it works
-The extensions adds a new AttributeGravatarImage object, and overrides the Person::GetAsHTML method to use the new attribute def implementation.
+In an ideal world, just adding a new specific attribute type, and overriding the datamodel class attribute type with XML would be enough.
+.. But it's not as simple as that 😱 ! Actually lots of the code around attributes is hard coded in iTop, for example in the 
+\MFCompiler::CompileClass...
+
+The extensions adds :
+
+* a new ormGravatarImage object 
+* overrides Person::Get method
+
+So for the specific Person.picture attribute, a new value object is returned, implementing a custom URL generation code.
 
 The Gravatar URL generation is done using [Ember Labs GravatarLib](https://github.com/emberlabs/gravatarlib/), thanks to them for this 
-wonderful library !
-
-A simplier way would have been to just redefine the Person.picture attribute type with XML (from AttributeImage to 
-AttributeGravatarImage). 
-But unfortunately this wouldn't work (getting a mandatory attribute missing error) : most of AttributeDefinition processing
- is hard-coded... Here the error would be raised due to a AttributeImage test in \MFCompiler::CompileClass. 
+wonderful library 👍 !

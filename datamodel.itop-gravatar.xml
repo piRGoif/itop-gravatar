@@ -3,26 +3,69 @@
     <classes>
         <class id="Person" _delta="must_exist">
             <methods>
-                <method id="GetAsHTML" _delta="define">
+                <method id="Get" _delta="define">
                     <comment>/**
-                        * Override default implementation to use the new AttributeGravatarImage if needed
+                        * Override for portal rendering which is based on \ormDocument::GetDownloadURL
+                        * @uses ormGravatarImage
                         */
                     </comment>
                     <static>false</static>
                     <access>public</access>
                     <type>Overload-DBObject</type>
-                    <code><![CDATA[public function GetAsHTML($sAttCode, $bLocalize = true)
+                    <code><![CDATA[public function Get($sAttCode)
 {
-    $bIsPictureAtt = ($sAttCode === 'picture'); //FIXME both class and attcode should be customizable
-    if (!$bIsPictureAtt)
+    $value = parent::Get($sAttCode);
+    if (!$this->IsGravatarPictureAtt($sAttCode))
     {
-        return parent::GetAsHTML($sAttCode);
+        return $value;
     }
 
     $oImageAtt = MetaModel::GetAttributeDef(get_class($this), $sAttCode);
-    $oGravatarAttDef = new AttributeGravatarImage($oImageAtt, 'email');
 
-    return $oGravatarAttDef->GetAsHTML($this->Get($sAttCode), $this, $bLocalize);
+    $sEmailAttCode = $this->GetGravatarEmailAttCode();
+    $sEmailValue = $this->Get($sEmailAttCode);
+
+    $sDefaultImageUrl = $oImageAtt->Get('default_image');
+
+    $iMaxWidth = $oImageAtt->Get('display_max_width');
+    $iMaxHeight = $oImageAtt->Get('display_max_height');
+    $iMaxSize = max($iMaxWidth, $iMaxHeight);
+    $iDefaultMaxSize = $this->GetGravatarDefaultMaxSize();
+    $iMaxSize = min($iDefaultMaxSize, $iMaxSize);
+
+    $oOrmGravatar = new ormGravatarImage($value, $sEmailValue, $sDefaultImageUrl, $iMaxSize);
+
+    return $oOrmGravatar;
+}
+]]></code>
+                </method>
+                <method id="IsGravatarPictureAtt" _delta="define">
+                    <static>false</static>
+                    <access>protected</access>
+                    <type>Custom</type>
+                    <code><![CDATA[protected function IsGravatarPictureAtt($sAttCode)
+{
+    return ($sAttCode === 'picture');
+}
+]]></code>
+                </method>
+                <method id="GetGravatarEmailAttCode" _delta="define">
+                    <static>false</static>
+                    <access>protected</access>
+                    <type>Custom</type>
+                    <code><![CDATA[protected function GetGravatarEmailAttCode()
+{
+    return 'email';
+}
+]]></code>
+                </method>
+                <method id="GetGravatarDefaultMaxSize" _delta="define">
+                    <static>false</static>
+                    <access>protected</access>
+                    <type>Custom</type>
+                    <code><![CDATA[protected function GetGravatarDefaultMaxSize()
+{
+    return 512;
 }
 ]]></code>
                 </method>

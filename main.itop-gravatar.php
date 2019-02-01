@@ -8,69 +8,82 @@ $sModulePath = utils::GetCurrentModuleDir(0);
 require_once(MODULESROOT.$sModulePath.'/lib/gravatarlib/Gravatar.php');
 
 
-class AttributeGravatarImage extends AttributeImage
+class ormGravatarImage extends ormDocument
 {
-	const EMAIL_ATTCODE_PARAM_KEY = 'gravatar_attcode';
+	private $sEmailValue;
+	private $sDefaultImageUrl;
+	private $iMaxSize;
 
 	/**
-	 * We can have different parameters than in parent class... but this breaks substitution principle.
-	 * Ok within our use case, but kids, do not do this at home !
+	 * We can have different parameters than in parent class... but this breaks substitution principle !
+	 * Ok for our use case, but kids, do not do this at home ;)
 	 *
 	 * @see http://www.php.net/oop5.decon
 	 *
-	 * @param \AttributeImage $oImageAttDef
-	 * @param string $sEmailAttCode
-	 *
-	 * @throws \Exception
+	 * @param \ormDocument $value
+	 * @param string $sEmailValue
+	 * @param string $sDefaultImageUrl
+	 * @param int $iMaxSize
 	 */
-	public function __construct(AttributeImage $oImageAttDef, $sEmailAttCode)
+	public function __construct(ormDocument $value, $sEmailValue, $sDefaultImageUrl, $iMaxSize)
 	{
-		$sCode = $oImageAttDef->GetCode();
-		$aParams = $oImageAttDef->GetParams();
-		$aParams[self::EMAIL_ATTCODE_PARAM_KEY] = $sEmailAttCode;
+		$data = $value->GetData();
+		$sMimeType = $value->GetMimeType();
+		$sFileName = $value->GetFileName();
 
-		parent::__construct($sCode, $aParams);
+		parent::__construct($data, $sMimeType, $sFileName);
 
-		$this->aCSSClasses = array('attribute');
+		$this->sEmailValue = $sEmailValue;
+		$this->sDefaultImageUrl = $sDefaultImageUrl;
+		$this->iMaxSize = $iMaxSize;
 	}
 
-	protected function GetAttributeImageFileUrl($value, $oHostObject)
+	/**
+	 * @return bool false, as we will always return an URL
+	 */
+	public function IsEmpty()
 	{
-		if (!$value->IsEmpty())
+		return false;
+	}
+
+	private function IsEmptyvalue()
+	{
+		return parent::IsEmpty();
+	}
+
+	public function GetDownloadURL($sClass, $Id, $sAttCode)
+	{
+		$bIsEmptyValue = $this->IsEmptyValue();
+		$bEmptyEmail = empty($this->sEmailValue);
+		IssueLog::Info('ormGravatar: email='.$this->sEmailValue);
+		if (!$bIsEmptyValue || $bEmptyEmail)
 		{
-			return parent::GetAttributeImageFileUrl($value, $oHostObject);
+			return parent::GetDownloadURL($sClass, $Id, $sAttCode);
 		}
 
-		$sGravatarAttCode = $this->HasParam(self::EMAIL_ATTCODE_PARAM_KEY)
-			? $this->Get(self::EMAIL_ATTCODE_PARAM_KEY)
-			: null;
-		if ($sGravatarAttCode === null)
-		{
-			return null;
-		}
-
-		$sEmail = $oHostObject->Get($sGravatarAttCode);
-		$sDefaultImageUrl = $this->Get('default_image');
-		$sGravatarUrl = $this->GetGravatarUrl($sEmail, $sDefaultImageUrl);
+		$sGravatarUrl = $this->GetGravatarUrl($this->sEmailValue, $this->sDefaultImageUrl, $this->iMaxSize);
 
 		return $sGravatarUrl;
 	}
 
-	private function GetGravatarUrl($sEmail, $sDefaultImageUrl)
+	/**
+	 * @param string $sEmail
+	 * @param string $sDefaultImageUrl won't work for localhost but ok with a valid hostname (eg
+	 *     https://demo.combodo.com/simple/env-production/itop-config-mgmt/images/silhouette.png)
+	 * @param int $iMaxSize
+	 *
+	 * @return string
+	 */
+	private function GetGravatarUrl($sEmail, $sDefaultImageUrl, $iMaxSize)
 	{
 		if (empty($sEmail))
 		{
 			return null;
 		}
 
-		$iMaxWidth = $this->Get('display_max_width');
-		$iMaxHeight = $this->Get('display_max_height');
-		$iMaxSize = max($iMaxWidth, $iMaxHeight);
-		$iMaxSize = min(512, $iMaxSize);
-
 		$oGravatar = new \emberlabs\GravatarLib\Gravatar();
 		$oGravatar->enableSecureImages()
-			->setDefaultImage($sDefaultImageUrl)//won't work for localhost but ok with a valid hostname (eg https://demo.combodo.com/simple/env-production/itop-config-mgmt/images/silhouette.png)
+			->setDefaultImage($sDefaultImageUrl)
 			->setAvatarSize($iMaxSize);
 
 		return $oGravatar->buildGravatarURL($sEmail);
