@@ -6,7 +6,7 @@ Person.picture attribute HTML rendering. If no picture are already loaded, then 
 email is done.
 
 This means that for every Person object with no picture defined, the image will be loaded from Gravatar service. This will change rendering 
-in both lists and form details.
+in all iTop screens like objects lists, object details, extended portal.
 
 
 ## ✔️ Requirements
