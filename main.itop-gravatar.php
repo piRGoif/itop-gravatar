@@ -46,7 +46,7 @@ class ormGravatarImage extends ormDocument
 		return false;
 	}
 
-	private function IsEmptyvalue()
+	private function IsEmptyValue()
 	{
 		return parent::IsEmpty();
 	}
