@@ -4,8 +4,7 @@
 require_once(APPROOT.'application/utils.inc.php');
 
 
-$sModulePath = utils::GetCurrentModuleDir(0);
-require_once(MODULESROOT.$sModulePath.'/lib/gravatarlib/Gravatar.php');
+require_once(MODULESROOT.'/itop-gravatar/lib/gravatarlib/Gravatar.php');
 
 
 class ormGravatarImage extends ormDocument
