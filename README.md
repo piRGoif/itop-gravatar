@@ -6,26 +6,32 @@ Person.picture attribute HTML rendering. If no picture are already loaded, then 
 email is done.
 
 This means that for every Person object with no picture defined, the image will be loaded from Gravatar service. This will change rendering 
-in both lists and form details.
+in all iTop screens like lists, form details, extended portal.
 
 
 ## ✔️ Requirements
 
-iTop v2.7.0 at least : the code needs the new \AttributeImage::GetAttributeImageFileUrl protected method. This method was [added in 2.6.0]() 
-as private, but its visibility was changed to protected [in 2.7.0](https://github.com/combodo/itop/commit/6bbc543ac14e1884fe009b3fd313d4f7ab326fde).
+Should work in all iTop, but dependency was set to iTop 2.3.4.
 
 
 ## 💣 Known problems
-The default image won't be displayed if used from a private server.
+
+* There should not be any other overrides of the \Person::Get method !
+* ManageBricks won't display empty Person.picture correctly anymore (broken image instead of the gravatar or default image)
+* The default image won't be displayed if used from a private server (not visible from the Gravatar service).
 
 
 ## 🔧 How it works
-The extensions adds a new AttributeGravatarImage object, and overrides the Person::GetAsHTML method to use the new attribute def implementation.
+In an ideal world, just adding a new specific attribute type, and overriding the datamodel class attribute type with XML would be enough.
+.. But it's not as simple as that 😱 ! Actually lots of the code around attributes is hard coded in iTop, for example in the 
+\MFCompiler::CompileClass...
+
+The extensions adds :
+
+* a new ormGravatarImage object 
+* overrides Person::Get method
+
+So for the specific Person.picture attribute, a new value object is returned, implementing a custom URL generation code.
 
 The Gravatar URL generation is done using [Ember Labs GravatarLib](https://github.com/emberlabs/gravatarlib/), thanks to them for this 
-wonderful library !
-
-A simplier way would have been to just redefine the Person.picture attribute type with XML (from AttributeImage to 
-AttributeGravatarImage). 
-But unfortunately this wouldn't work (getting a mandatory attribute missing error) : most of AttributeDefinition processing
- is hard-coded... Here the error would be raised due to a AttributeImage test in \MFCompiler::CompileClass. 
+wonderful library 👍 !

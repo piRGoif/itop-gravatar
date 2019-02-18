@@ -5,7 +5,7 @@
 
 SetupWebPage::AddModule(
 	__FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-	'itop-gravatar/0.0.1',
+	'itop-gravatar/0.0.2',
 	array(
 		// Identification
 		//
@@ -15,7 +15,7 @@ SetupWebPage::AddModule(
 		// Setup
 		//
 		'dependencies' => array(
-			'itop-config-mgmt/2.6.0', //FIXME should depend on iTop 2.7.0 (AttributeImage methods visibility 6bbc543a)
+			'itop-config-mgmt/2.3.0',
 		),
 		'mandatory' => false,
 		'visible' => true,
