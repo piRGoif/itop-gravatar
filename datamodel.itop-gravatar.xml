@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<itop_design version="1.6">
+<itop_design version="1.3">
     <classes>
         <class id="Person" _delta="must_exist">
             <methods>
