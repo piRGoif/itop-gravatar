@@ -1,8 +1,5 @@
 <?php
-@include_once('../../../approot.inc.php');
 @include_once('../../approot.inc.php');
-@include_once('../approot.inc.php');
-require_once(APPROOT.'application/utils.inc.php');
 
 
 require_once(MODULESROOT.'/itop-gravatar/lib/gravatarlib/Gravatar.php');

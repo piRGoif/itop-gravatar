@@ -11,7 +11,7 @@ in all iTop screens like lists, form details, extended portal.
 
 ## ✔️ Requirements
 
-Should work in all iTop, but dependency was set to iTop 2.3.4.
+iTop version 2.3.0 (enhanced portal support).
 
 
 ## 💣 Known problems
@@ -30,8 +30,9 @@ The extensions adds :
 
 * a new ormGravatarImage object 
 * overrides Person::Get method
+* overrides 'p_object_document_display' enhanced portal route
 
-So for the specific Person.picture attribute, a new value object is returned, implementing a custom URL generation code.
+So for the specific Person.picture attribute, a new value object is returned, implementing a custom URL generation code.  
 
 The Gravatar URL generation is done using [Ember Labs GravatarLib](https://github.com/emberlabs/gravatarlib/), thanks to them for this 
 wonderful library 👍 !

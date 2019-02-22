@@ -5,7 +5,7 @@
 
 SetupWebPage::AddModule(
 	__FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-	'itop-gravatar/0.0.2',
+	'itop-gravatar/0.0.3',
 	array(
 		// Identification
 		//
@@ -16,6 +16,7 @@ SetupWebPage::AddModule(
 		//
 		'dependencies' => array(
 			'itop-config-mgmt/2.3.0',
+			'itop-portal-base/1.0.0',
 		),
 		'mandatory' => false,
 		'visible' => true,
@@ -25,6 +26,7 @@ SetupWebPage::AddModule(
 		'datamodel' => array(
 			'datamodel.itop-gravatar.xml',
 			'main.itop-gravatar.php',
+			'portal/gravatar-portalextension.class.inc.php',
 		),
 		'webservice' => array(),
 		'data.struct' => array(// add your 'structure' definition XML files here,

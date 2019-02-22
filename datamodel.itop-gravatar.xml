@@ -40,9 +40,9 @@
                 </method>
                 <method id="IsGravatarPictureAtt" _delta="define">
                     <static>false</static>
-                    <access>protected</access>
+                    <access>public</access>
                     <type>Custom</type>
-                    <code><![CDATA[protected function IsGravatarPictureAtt($sAttCode)
+                    <code><![CDATA[public function IsGravatarPictureAtt($sAttCode)
 {
     return ($sAttCode === 'picture');
 }
@@ -50,9 +50,9 @@
                 </method>
                 <method id="GetGravatarEmailValue" _delta="define">
                     <static>false</static>
-                    <access>protected</access>
+                    <access>public</access>
                     <type>Custom</type>
-                    <code><![CDATA[protected function GetGravatarEmailValue()
+                    <code><![CDATA[public function GetGravatarEmailValue()
 {
     return $this->Get('email');
 }
@@ -60,9 +60,9 @@
                 </method>
                 <method id="GetGravatarDefaultMaxSize" _delta="define">
                     <static>false</static>
-                    <access>protected</access>
+                    <access>public</access>
                     <type>Custom</type>
-                    <code><![CDATA[protected function GetGravatarDefaultMaxSize()
+                    <code><![CDATA[public function GetGravatarDefaultMaxSize()
 {
     return 512;
 }
