@@ -17,7 +17,6 @@ iTop version 2.3.0 (enhanced portal support).
 ## 💣 Known problems
 
 * There should not be any other overrides of the \Person::Get method !
-* ManageBricks won't display empty Person.picture correctly anymore (broken image instead of the gravatar or default image)
 * The default image won't be displayed if used from a private server (not visible from the Gravatar service).
 
 
