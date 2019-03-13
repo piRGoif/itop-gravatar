@@ -5,8 +5,8 @@ This extension adds [Gravatar](http://www.gravatar.com/) support for [iTop](http
 Person.picture attribute HTML rendering. If no picture are already loaded, then a Gravatar call using the Person.email value as 
 email is done.
 
-This means that for every Person object with no picture defined, the image will be loaded from Gravatar service. This will change rendering 
-in all iTop screens like lists, form details, extended portal.
+This means that for every Person object with no picture defined and having an email, the image will be loaded from Gravatar service. This
+ will change rendering in all iTop screens like lists, form details, extended portal.
 
 
 ## ✔️ Requirements

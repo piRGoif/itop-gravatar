@@ -21,15 +21,17 @@
     }
     if ($value === '')
     {
+        // on object creation
         return $value;
+    }
+    $sEmailValue = $this->GetGravatarEmailValue();
+    if (empty($sEmailValue))
+    {
+    	return $value;
     }
 
     $oImageAtt = MetaModel::GetAttributeDef(get_class($this), $sAttCode);
-
-    $sEmailValue = $this->GetGravatarEmailValue();
-
     $sDefaultImageUrl = $oImageAtt->Get('default_image');
-
     $iMaxWidth = $oImageAtt->Get('display_max_width');
     $iMaxHeight = $oImageAtt->Get('display_max_height');
     $iMaxSize = max($iMaxWidth, $iMaxHeight);
