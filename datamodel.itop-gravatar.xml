@@ -24,6 +24,10 @@
         // on object creation
         return $value;
     }
+    if (!$value->IsEmpty())
+    {
+        return $value;
+    }
     $sEmailValue = $this->GetGravatarEmailValue();
     if (empty($sEmailValue))
     {
