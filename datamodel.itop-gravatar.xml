@@ -19,6 +19,10 @@
     {
         return $value;
     }
+    if ($value === '')
+    {
+        return $value;
+    }
 
     $oImageAtt = MetaModel::GetAttributeDef(get_class($this), $sAttCode);
 
