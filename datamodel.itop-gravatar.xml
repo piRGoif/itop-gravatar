@@ -19,13 +19,23 @@
     {
         return $value;
     }
+    if ($value === '')
+    {
+        // on object creation
+        return $value;
+    }
+    if (!$value->IsEmpty())
+    {
+        return $value;
+    }
+    $sEmailValue = $this->GetGravatarEmailValue();
+    if (empty($sEmailValue))
+    {
+    	return $value;
+    }
 
     $oImageAtt = MetaModel::GetAttributeDef(get_class($this), $sAttCode);
-
-    $sEmailValue = $this->GetGravatarEmailValue();
-
     $sDefaultImageUrl = $oImageAtt->Get('default_image');
-
     $iMaxWidth = $oImageAtt->Get('display_max_width');
     $iMaxHeight = $oImageAtt->Get('display_max_height');
     $iMaxSize = max($iMaxWidth, $iMaxHeight);
@@ -40,9 +50,9 @@
                 </method>
                 <method id="IsGravatarPictureAtt" _delta="define">
                     <static>false</static>
-                    <access>protected</access>
+                    <access>public</access>
                     <type>Custom</type>
-                    <code><![CDATA[protected function IsGravatarPictureAtt($sAttCode)
+                    <code><![CDATA[public function IsGravatarPictureAtt($sAttCode)
 {
     return ($sAttCode === 'picture');
 }
@@ -50,9 +60,9 @@
                 </method>
                 <method id="GetGravatarEmailValue" _delta="define">
                     <static>false</static>
-                    <access>protected</access>
+                    <access>public</access>
                     <type>Custom</type>
-                    <code><![CDATA[protected function GetGravatarEmailValue()
+                    <code><![CDATA[public function GetGravatarEmailValue()
 {
     return $this->Get('email');
 }
@@ -60,9 +70,9 @@
                 </method>
                 <method id="GetGravatarDefaultMaxSize" _delta="define">
                     <static>false</static>
-                    <access>protected</access>
+                    <access>public</access>
                     <type>Custom</type>
-                    <code><![CDATA[protected function GetGravatarDefaultMaxSize()
+                    <code><![CDATA[public function GetGravatarDefaultMaxSize()
 {
     return 512;
 }

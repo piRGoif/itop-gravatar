@@ -1,7 +1,5 @@
 <?php
 @include_once('../../approot.inc.php');
-@include_once('../approot.inc.php');
-require_once(APPROOT.'application/utils.inc.php');
 
 
 require_once(MODULESROOT.'/itop-gravatar/lib/gravatarlib/Gravatar.php');
@@ -27,7 +25,7 @@ class ormGravatarImage extends ormDocument
 	public function __construct(ormDocument $value, $sEmailValue, $sDefaultImageUrl, $iMaxSize)
 	{
 		$data = $value->GetData();
-		$sMimeType = $value->GetMimeType();
+		$sMimeType = 'image/png'; // used for form modifications, see #GetData
 		$sFileName = $value->GetFileName();
 
 		parent::__construct($data, $sMimeType, $sFileName);
@@ -39,13 +37,14 @@ class ormGravatarImage extends ormDocument
 
 	/**
 	 * @return bool false, as we will always return an URL
+	 *           when modifying form we will use #GetData method
 	 */
 	public function IsEmpty()
 	{
 		return false;
 	}
 
-	private function IsEmptyValue()
+	public function IsEmptyValue()
 	{
 		return parent::IsEmpty();
 	}
@@ -95,5 +94,18 @@ class ormGravatarImage extends ormDocument
 			->setAvatarSize($iMaxSize);
 
 		return $oGravatar->buildGravatarURL($sEmail);
+	}
+
+	/**
+	 * Used in the object modification form as preview
+	 *
+	 * @return mixed binary content of the gravatar icon
+	 * @see \cmdbAbstractObject::GetFormElementForField
+	 */
+	public function GetData()
+	{
+		$fGravatarIcon = MODULESROOT.'/itop-gravatar/lib/gravatar-black-256-icon.png';
+		$GravatarIconBinary = file_get_contents($fGravatarIcon);
+		return $GravatarIconBinary;
 	}
 }
