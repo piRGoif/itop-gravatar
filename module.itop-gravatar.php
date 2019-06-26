@@ -24,7 +24,6 @@ SetupWebPage::AddModule(
 		// Components
 		//
 		'datamodel' => array(
-			'datamodel.itop-gravatar.xml',
 			'main.itop-gravatar.php',
 			'portal/gravatar-portalextension.class.inc.php',
 		),
