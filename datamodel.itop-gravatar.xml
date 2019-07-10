@@ -15,6 +15,10 @@
                     <code><![CDATA[public function Get($sAttCode)
 {
     $value = parent::Get($sAttCode);
+    if (is_null($value))
+    {
+        return $value;
+    }
     if (!$this->IsGravatarPictureAtt($sAttCode))
     {
         return $value;
